@@ -22,7 +22,7 @@
 | id     | string                                                       | 唯一标识    |
 | topic  | realtimes\|trade\|kline_$interval\|depth\|diffDepth\|broker\|topN\|slowBroker, | 请求主题    |
 | event  | sub\|cancel\|cancel_all                                      | 请求类型    |
-| symbol | exchangeId.symbol (eg: 301.NVDA-PERP-USDT)                          | 币对        |
+| symbol | exchangeId.symbol (eg: 301.NVDA-PERP-USDT)                          | 币对。`exchangeId` 为交易所分配的数字标识，通过 [获取合约信息](#realtimes--24小时行情) 接口可获取        |
 | params | {}                                                           | 参数        |
 
 #### realtimes  24小时行情
@@ -72,7 +72,7 @@
   event: "sub",
   id: "trade301.NVDA-PERP-USDT",
   limit: 60,
-  params: {org: 7061, binary: true},
+  params: {org: 6001, binary: true},
   symbol: "301.NVDA-PERP-USDT",
   topic: "trade",
 }
@@ -375,7 +375,7 @@ topN为每秒返回指定券商按涨跌幅排序的前limit个, 默认为5个�
         "symbol": "NVDA-PERP-USDT",
         "index": "183.25",
         "edp": "183.30",
-        "formula": "(183.20[GEMINI]+183.25[KRAKEN]+183.28[BITSTAMP]+183.27[COINBASE])/4"
+        "formula": "(183.20[SOURCE_A]+183.25[SOURCE_B]+183.28[SOURCE_C]+183.27[SOURCE_D])/4"
     }],
     "f": false
 }
@@ -540,7 +540,7 @@ c. 结果为 bids [] asks[]
 | name             | type   | required | value                                                        | 支持topics                   | description                                                  |
 | ---------------- | ------ | -------- | ------------------------------------------------------------ | ---------------------------- | ------------------------------------------------------------ |
 | binary           | string | false    | `true|false`                                                 | all                          | 是否返回二进制数据                                           |
-| org              | string | false    | orgId （eg:6001）                                            | broker, topN                 | 券商id                                                       |
+| org              | string | false    | orgId （eg:6001）                                            | broker, topN                 | 券商 ID，由平台分配。可不传，服务端会通过请求 host 自动判断                                                       |
 | limit            | string | false    |                                                              | kline,topN                   | 可以选择快照的条数，k线最大为2000条;<br/>topN表示前limit个行情;<br/> trade为固定60条;<br/>其它固定为1条; |
 | kline_type       | string | true     | `1m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 12h, 1d, 1d+8, 1w, 1w+8, 1M, 1M+8` | kline                        | k线类型                                                      |
 | dump_scale       | string | true     |                                                              | mergedDepth, diffMergedDepth | 合并的档位                                                   |
